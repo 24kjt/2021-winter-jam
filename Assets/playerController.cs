@@ -38,8 +38,8 @@ public class playerController : MonoBehaviour
             //check for valid input
             if (input != Vector2.zero) {
                 startPos = player.transform.position;
-                endPos = new Vector3(startPos.x + input.x * (float)1.2 * tilesToMove, 
-                                     startPos.y + input.y * tilesToMove, 
+                endPos = new Vector3(startPos.x + input.x * grid.cellSizeX * tilesToMove, 
+                                     startPos.y + input.y * grid.cellSizeY * tilesToMove, 
                                      startPos.z);
                 isMoving = true;
                 MovementData res = calculateMovement(startPos, endPos);
@@ -60,17 +60,6 @@ public class playerController : MonoBehaviour
                 levelScripts.updatePlayerLocation(endPos);
             }
         }
-            // if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))){
-            //     movement.Enqueue(new Vector2(1,1));
-            // } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)){
-            //     movement.Enqueue(new Vector2(1,-1));
-            // }
-
-            // if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)){
-            //     movement.Enqueue(new Vector2(0,-1));
-            // } else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)){
-            //     movement.Enqueue(new Vector2(0,1));
-            // }
     }
 
     MovementData calculateMovement(Vector3 startPos, Vector3 goalPos) {
@@ -87,13 +76,13 @@ public class playerController : MonoBehaviour
 
         //Check if attempting to exit stage
         Debug.Log("End Index: " + endIndex);
-        if (endIndex.x > 8 || endIndex.x < 0 || endIndex.y > 8 || endIndex.y < 0) {
+        if (endIndex.x > grid.gridWidth - 1 || endIndex.x < 0 || endIndex.y > grid.gridHeight - 1 || endIndex.y < 0) {
             attemptedEscape = true;
             //Adjust x
-            endIndex.x = endIndex.x > 8 ? 8 : endIndex.x;
+            endIndex.x = endIndex.x > grid.gridWidth - 1 ? grid.gridWidth - 1 : endIndex.x;
             endIndex.x = endIndex.x < 0 ? 0 : endIndex.x;
             //Adjust y
-            endIndex.y = endIndex.y > 8 ? 8 : endIndex.y;
+            endIndex.y = endIndex.y > grid.gridHeight - 1 ? grid.gridHeight - 1 : endIndex.y;
             endIndex.y = endIndex.y < 0 ? 0 : endIndex.y;
             Debug.Log("ATTEMPTED ESCAPE");
         }
@@ -151,16 +140,16 @@ public class playerController : MonoBehaviour
                         //TODO: Wall logic
                         switch (movementDirection){
                             case Direction.Left: 
-                                ans.endPos.x = curr.transform.position.x + (float)1.2;
+                                ans.endPos.x = curr.transform.position.x + grid.cellSizeX;
                                 break;
                             case Direction.Right: 
-                                ans.endPos.x = curr.transform.position.x - (float)1.2;
+                                ans.endPos.x = curr.transform.position.x - grid.cellSizeX;
                                 break;
                             case Direction.Up: 
-                                ans.endPos.y = curr.transform.position.y - (float)1;
+                                ans.endPos.y = curr.transform.position.y - grid.cellSizeY;
                                 break;
                             case Direction.Down: 
-                                ans.endPos.y = curr.transform.position.y + (float)1;
+                                ans.endPos.y = curr.transform.position.y + grid.cellSizeY;
                                 break;
                             default:
                                 curr = null;
@@ -178,40 +167,11 @@ public class playerController : MonoBehaviour
         Debug.Log("End Index3: " + endIndex);
 
         if (attemptedEscape && ans.playerEffect == Effect.None){
-            ans.endPos.x = endIndex.x * 1.2f + .6f;
-            ans.endPos.y = endIndex.y + .5f;
+            ans.endPos.x = endIndex.x * grid.cellSizeX + grid.cellSizeX/2;
+            ans.endPos.y = endIndex.y * grid.cellSizeY + grid.cellSizeY/2;
             ans.playerEffect = Effect.Wall;
         }
 
         return ans;
     }
-
-    // void FixedUpdate(){
-    //     while (movement.Count > 0) {
-    //         Vector2 currMove = movement.Dequeue();
-
-    //         if(currMove.y == 0) continue;
-
-    //         Vector3 positionChange = new Vector3(0,0,0);
-
-    //         switch (currMove.x) {
-    //             //X movement
-    //             case 0:
-    //                 positionChange.x = currMove.y * (float)1.2 * speedMultiplier; 
-    //                 break;
-    //             //Y movement
-    //             case 1:
-    //                 positionChange.y = currMove.y * speedMultiplier; 
-    //                 break;
-    //             default:
-    //                 Debug.Log("Something went very wrong in player movement!");
-    //                 break;
-    //         }
-    //         Debug.Log(player.transform.position);
-    //         Debug.Log("PositionChange: " + positionChange);
-    //         player.transform.position = Vector3.MoveTowards(player.transform.position, player.transform.position + positionChange, Time.fixedDeltaTime*(float)moveTime);
-    //         // rb.MovePosition(rb.position + positionChange);
-    //         speedMultiplier++;
-    //     }
-    // }
 }

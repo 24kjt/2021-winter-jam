@@ -11,7 +11,7 @@ public class levelController : MonoBehaviour
     GameObject[] pits;
     GameObject[] walls;
 
-    GameObject[,] stage = new GameObject[9,9];
+    GameObject[,] stage = new GameObject[grid.gridWidth,grid.gridHeight];
 
     void Start()
     {
@@ -23,25 +23,25 @@ public class levelController : MonoBehaviour
         //set player
         playerIndex = calculateLevelIndexes(player.transform.position);
         stage[playerIndex.x, playerIndex.y] = player;
-        player.transform.position = new Vector3(playerIndex.x * (float)1.2 + 0.6f, playerIndex.y + 0.5f, player.transform.position.z);
-        Debug.Log("Player Position: " + (int)(player.transform.position.x / 1.2) + ", " + (int)(player.transform.position.y));
+        player.transform.position = new Vector3(playerIndex.x * grid.cellSizeX + grid.cellSizeX/2, playerIndex.y * grid.cellSizeY + grid.cellSizeY/2, player.transform.position.z);
+        Debug.Log("Player Position: " + (int)(player.transform.position.x / grid.cellSizeX) + ", " + (int)(player.transform.position.y / grid.cellSizeY));
         
         foreach ( GameObject go in goals) {
             Vector2Int goIndex = calculateLevelIndexes(go.transform.position);
             stage[goIndex.x, goIndex.y] = go;
-            go.transform.position = new Vector3(goIndex.x * (float)1.2 + 0.6f, goIndex.y + 0.5f, go.transform.position.z);
+            go.transform.position = new Vector3(goIndex.x * grid.cellSizeX + grid.cellSizeX/2, goIndex.y * grid.cellSizeY + grid.cellSizeY/2, go.transform.position.z);
         }
 
         foreach ( GameObject go in pits) {
             Vector2Int goIndex = calculateLevelIndexes(go.transform.position);
             stage[goIndex.x, goIndex.y] = go;
-            go.transform.position = new Vector3(goIndex.x * (float)1.2 + 0.6f, goIndex.y + 0.5f, go.transform.position.z);
+            go.transform.position = new Vector3(goIndex.x * grid.cellSizeX + grid.cellSizeX/2, goIndex.y * grid.cellSizeY + grid.cellSizeY/2, go.transform.position.z);
         }
 
         foreach ( GameObject go in walls) {
             Vector2Int goIndex = calculateLevelIndexes(go.transform.position);
             stage[goIndex.x, goIndex.y] = go;
-            go.transform.position = new Vector3(goIndex.x * (float)1.2 + 0.6f, goIndex.y + 0.5f, go.transform.position.z);
+            go.transform.position = new Vector3(goIndex.x * grid.cellSizeX + grid.cellSizeX/2, goIndex.y * grid.cellSizeY + grid.cellSizeY/2, go.transform.position.z);
             Debug.Log("Wall Location: " + goIndex);
         }
 
@@ -58,7 +58,7 @@ public class levelController : MonoBehaviour
         
     }
     public Vector2Int calculateLevelIndexes(Vector3 v3){
-        return new Vector2Int((int)(v3.x/1.2), (int)(v3.y));
+        return new Vector2Int((int)(v3.x/grid.cellSizeX), (int)(v3.y/grid.cellSizeY));
     }
 
     public GameObject getTile(int x, int y){
