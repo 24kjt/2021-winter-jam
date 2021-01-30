@@ -150,6 +150,7 @@ public class playerController : MonoBehaviour
                                 curr = null;
                                 break;
                         }
+                        tilesToMove = 0;
                         return ans;
                         break;
                     default:
