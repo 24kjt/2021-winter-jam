@@ -10,14 +10,15 @@ public class playerController : MonoBehaviour
 
     public int tilesToMove = 1;
     public float moveSpeed = 5f;
+    public bool hasHelment = false;
 
-    // Queue<Vector2> movement = new Queue<Vector2>(); 
     bool isMoving = false;
     Vector2 input;
 
     Vector3 startPos; //Starting Position
     Vector3 endPos; //Movement destination
     float progress; //Progress to finishing movement
+    MovementData res; //results of movement calc 
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +43,7 @@ public class playerController : MonoBehaviour
                                      startPos.y + input.y * grid.cellSizeY * tilesToMove, 
                                      startPos.z);
                 isMoving = true;
-                MovementData res = calculateMovement(startPos, endPos);
+                res = calculateMovement(startPos, endPos);
                 endPos = res.endPos;
                 Debug.Log("EFFECT: " + res.playerEffect);
                 progress = 0f;
@@ -58,6 +59,7 @@ public class playerController : MonoBehaviour
                 tilesToMove++;
                 player.transform.position = endPos;
                 levelScripts.updatePlayerLocation(endPos);
+                performConsequences();
             }
         }
     }
@@ -128,11 +130,11 @@ public class playerController : MonoBehaviour
             if (curr != null){
                 switch(curr.tag){
                     case "Goal":
-                        if (i + 1 == numIterations)
+                        if (i == numIterations)
                             ans.playerEffect = Effect.Win;
                         break;
                     case "Pit":
-                        if (i + 1 == numIterations)
+                        if (i  == numIterations)
                             ans.playerEffect = Effect.Pit;
                         break;
                     case "Wall":
@@ -173,5 +175,13 @@ public class playerController : MonoBehaviour
         }
 
         return ans;
+    }
+
+    void performConsequences(){
+        switch (res.playerEffect){
+            case Effect.Pit:
+                levelScripts.restartLevel();
+                break;
+        }
     }
 }

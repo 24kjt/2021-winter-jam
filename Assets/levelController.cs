@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class levelController : MonoBehaviour
 {
@@ -52,11 +53,6 @@ public class levelController : MonoBehaviour
         // }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public Vector2Int calculateLevelIndexes(Vector3 v3){
         return new Vector2Int((int)(v3.x/grid.cellSizeX), (int)(v3.y/grid.cellSizeY));
     }
@@ -70,5 +66,9 @@ public class levelController : MonoBehaviour
         stage[playerIndex.x, playerIndex.y] = null;
         stage[newIndex.x, newIndex.y] = player;
         playerIndex = newIndex;
+    }
+
+    public void restartLevel(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
