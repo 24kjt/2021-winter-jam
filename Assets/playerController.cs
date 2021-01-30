@@ -69,6 +69,7 @@ public class playerController : MonoBehaviour
         int numIterations = 0;
         bool attemptedEscape = false;
         bool isHitWall = false;
+        Debug.Log("START POS: " + startPos);
         Vector2Int startIndex = levelScripts.calculateLevelIndexes(startPos);
         Vector2Int endIndex = levelScripts.calculateLevelIndexes(goalPos);
 
@@ -139,7 +140,6 @@ public class playerController : MonoBehaviour
                         break;
                     case "Wall":
                         ans.playerEffect = Effect.Wall;
-                        //TODO: Wall logic
                         switch (movementDirection){
                             case Direction.Left: 
                                 ans.endPos.x = curr.transform.position.x + grid.cellSizeX;
@@ -181,6 +181,28 @@ public class playerController : MonoBehaviour
         switch (res.playerEffect){
             case Effect.Pit:
                 levelScripts.restartLevel();
+                break;
+            case Effect.Win:
+                levelScripts.nextLevel();
+                break;
+            case Effect.Wall:
+                tilesToMove = 1;
+                Vector2Int endIndex = levelScripts.calculateLevelIndexes(res.endPos);
+                GameObject currentTile = levelScripts.getTile(endIndex);
+                switch (currentTile?.tag){
+                    case "Goal":
+                        res.playerEffect = Effect.Win;
+                        break;
+                    case "Pit":
+                        res.playerEffect = Effect.Pit;
+                        break;
+                    default:
+                        res.playerEffect = Effect.None;
+                        break;
+                }
+                performConsequences();
+                break;
+            default:
                 break;
         }
     }

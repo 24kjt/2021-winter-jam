@@ -54,11 +54,17 @@ public class levelController : MonoBehaviour
     }
 
     public Vector2Int calculateLevelIndexes(Vector3 v3){
-        return new Vector2Int((int)(v3.x/grid.cellSizeX), (int)(v3.y/grid.cellSizeY));
+        
+        return new Vector2Int((int)(v3.x > 0 ? v3.x/grid.cellSizeX : v3.x/grid.cellSizeX - 1), 
+                              (int)(v3.y > 0 ? v3.y/grid.cellSizeY : v3.y/grid.cellSizeY - 1));
     }
 
     public GameObject getTile(int x, int y){
         return stage?[x,y];
+    }
+
+    public GameObject getTile(Vector2Int v2){
+        return stage?[v2.x,v2.y];
     }
 
     public void updatePlayerLocation(Vector3 v3){
@@ -70,5 +76,10 @@ public class levelController : MonoBehaviour
 
     public void restartLevel(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void nextLevel(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
