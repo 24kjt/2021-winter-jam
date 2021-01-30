@@ -6,6 +6,7 @@ public class levelController : MonoBehaviour
 {
     // Start is called before the first frame update
     GameObject player;
+    Vector2Int playerIndex;
     GameObject[] goals;
     GameObject[] pits;
     GameObject[] walls;
@@ -20,10 +21,11 @@ public class levelController : MonoBehaviour
         walls = GameObject.FindGameObjectsWithTag("Wall");
 
         //set player
-        Vector2Int playerIndex = calculateLevelIndexes(player.transform.position);
+        playerIndex = calculateLevelIndexes(player.transform.position);
         stage[playerIndex.x, playerIndex.y] = player;
         player.transform.position = new Vector3(playerIndex.x * (float)1.2 + 0.6f, playerIndex.y + 0.5f, player.transform.position.z);
         Debug.Log("Player Position: " + (int)(player.transform.position.x / 1.2) + ", " + (int)(player.transform.position.y));
+        
         foreach ( GameObject go in goals) {
             Vector2Int goIndex = calculateLevelIndexes(go.transform.position);
             stage[goIndex.x, goIndex.y] = go;
@@ -61,5 +63,12 @@ public class levelController : MonoBehaviour
 
     public GameObject getTile(int x, int y){
         return stage?[x,y];
+    }
+
+    public void updatePlayerLocation(Vector3 v3){
+        Vector2Int newIndex = calculateLevelIndexes(v3);
+        stage[playerIndex.x, playerIndex.y] = null;
+        stage[newIndex.x, newIndex.y] = player;
+        playerIndex = newIndex;
     }
 }

@@ -57,6 +57,7 @@ public class playerController : MonoBehaviour
                 Debug.Log("Moving done!");
                 tilesToMove++;
                 player.transform.position = endPos;
+                levelScripts.updatePlayerLocation(endPos);
             }
         }
             // if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))){
