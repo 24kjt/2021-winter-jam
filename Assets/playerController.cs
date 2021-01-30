@@ -76,6 +76,7 @@ public class playerController : MonoBehaviour
     MovementData calculateMovement(Vector3 startPos, Vector3 goalPos) {
         Direction movementDirection = Direction.Right;
         int numIterations = 0;
+        bool attemptedEscape = false;
         Vector2Int startIndex = levelScripts.calculateLevelIndexes(startPos);
         Vector2Int endIndex = levelScripts.calculateLevelIndexes(goalPos);
 
@@ -98,7 +99,20 @@ public class playerController : MonoBehaviour
             numIterations = startIndex.y - endIndex.y;
         }
 
-        for (int i = 1; i <= numIterations; i++) {
+        //Check if attempting to exit stage
+        if (endPos.x > 8 || endPos.y > 8) {
+            attemptedEscape = true;
+            //Adjust x
+            endPos.x = endPos.x > 8 ? 8 : endPos.x;
+            endPos.x = endPos.x < 0 ? 0 : endPos.x;
+            //Adjust y
+            endPos.y = endPos.y > 8 ? 8 : endPos.x;
+            endPos.y = endPos.y < 0 ? 0 : endPos.x;
+        }
+
+        bool isHitWall = false;
+
+        for (int i = 1; i <= numIterations && !isHitWall; i++) {
             GameObject curr;
             //Change curr based on which direction you are moving
             switch (movementDirection){
@@ -151,7 +165,6 @@ public class playerController : MonoBehaviour
                                 curr = null;
                                 break;
                         }
-                        tilesToMove = 0;
                         return ans;
                         break;
                     default:
