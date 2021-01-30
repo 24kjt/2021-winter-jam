@@ -77,12 +77,26 @@ public class playerController : MonoBehaviour
         Direction movementDirection = Direction.Right;
         int numIterations = 0;
         bool attemptedEscape = false;
+        bool isHitWall = false;
         Vector2Int startIndex = levelScripts.calculateLevelIndexes(startPos);
         Vector2Int endIndex = levelScripts.calculateLevelIndexes(goalPos);
 
         MovementData ans;
         ans.endPos = goalPos;
         ans.playerEffect = Effect.None;
+
+        //Check if attempting to exit stage
+        Debug.Log("End Index: " + endIndex);
+        if (endIndex.x > 8 || endIndex.x < 0 || endIndex.y > 8 || endIndex.y < 0) {
+            attemptedEscape = true;
+            //Adjust x
+            endIndex.x = endIndex.x > 8 ? 8 : endIndex.x;
+            endIndex.x = endIndex.x < 0 ? 0 : endIndex.x;
+            //Adjust y
+            endIndex.y = endIndex.y > 8 ? 8 : endIndex.y;
+            endIndex.y = endIndex.y < 0 ? 0 : endIndex.y;
+            Debug.Log("ATTEMPTED ESCAPE");
+        }
 
         //Determine direction of movement
         if (startIndex.x > endIndex.x) {
@@ -98,19 +112,6 @@ public class playerController : MonoBehaviour
             movementDirection = Direction.Down;
             numIterations = startIndex.y - endIndex.y;
         }
-
-        //Check if attempting to exit stage
-        if (endPos.x > 8 || endPos.y > 8) {
-            attemptedEscape = true;
-            //Adjust x
-            endPos.x = endPos.x > 8 ? 8 : endPos.x;
-            endPos.x = endPos.x < 0 ? 0 : endPos.x;
-            //Adjust y
-            endPos.y = endPos.y > 8 ? 8 : endPos.x;
-            endPos.y = endPos.y < 0 ? 0 : endPos.x;
-        }
-
-        bool isHitWall = false;
 
         for (int i = 1; i <= numIterations && !isHitWall; i++) {
             GameObject curr;
@@ -165,7 +166,7 @@ public class playerController : MonoBehaviour
                                 curr = null;
                                 break;
                         }
-                        return ans;
+                        isHitWall = true;
                         break;
                     default:
                         ans.endPos = goalPos;
@@ -173,6 +174,13 @@ public class playerController : MonoBehaviour
                         break;
                 }
             }
+        }
+        Debug.Log("End Index3: " + endIndex);
+
+        if (attemptedEscape && ans.playerEffect == Effect.None){
+            ans.endPos.x = endIndex.x * 1.2f + .6f;
+            ans.endPos.y = endIndex.y + .5f;
+            ans.playerEffect = Effect.Wall;
         }
 
         return ans;
