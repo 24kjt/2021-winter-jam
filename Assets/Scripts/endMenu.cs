@@ -21,6 +21,7 @@ public class endMenu : MonoBehaviour
                 break;
             case 1:
                 if(Input.anyKeyDown){
+                    Destroy(GameObject.Find("MusicManager"));
                     SceneManager.LoadScene(0);
                 }
                 break;
