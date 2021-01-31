@@ -407,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 482907973}
   animator: {fileID: 482907974}
+  playerSprite: {fileID: 1710194220}
   tilesToMove: 1
   moveSpeed: 5
   hasHelmet: 0

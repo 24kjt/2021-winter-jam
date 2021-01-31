@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8215991369348407917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3638253427259699711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CategoryHash: 7.6977606e+17
+  m_labelHash: -1.85444e+17
 --- !u!1 &8215991368394316014
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,8 +88,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8215991368394316014}
-  levelController: {fileID: 0}
   animator: {fileID: 8215991368394316013}
+  playerSprite: {fileID: 3527679658310129945}
   tilesToMove: 1
   moveSpeed: 5
   hasHelmet: 0
@@ -112,20 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SpriteLibraryAsset: {fileID: 11400000, guid: fd722cb04298b76409083bbd82a1f6b4,
     type: 2}
---- !u!114 &8215991369348407917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3638253427259699711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CategoryHash: 7.6977606e+17
-  m_labelHash: -1.85444e+17
 --- !u!1001 &8215991370158338432
 PrefabInstance:
   m_ObjectHideFlags: 0
