@@ -396,8 +396,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 482907973}
   levelController: {fileID: 1191315061}
+  animator: {fileID: 482907974}
   tilesToMove: 1
   moveSpeed: 5
+  hasHelmet: 0
 --- !u!61 &482907978
 BoxCollider2D:
   m_ObjectHideFlags: 0
