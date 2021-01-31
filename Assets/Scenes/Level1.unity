@@ -1728,16 +1728,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853908915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2341ec585fe524996a12ec98edeb0e6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c132c5ad61154c9ca8c5146373b4dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audiosource: {fileID: 1853908917}
   bonk: {fileID: 8300000, guid: 76c13765f7d08434e90ec25227bcb621, type: 3}
   moveWoosh: {fileID: 8300000, guid: a3617885836ab4fd497633a323543ae2, type: 3}
   win: {fileID: 8300000, guid: 8c1086133bb37478c962eb448a01290c, type: 3}
-  bonkDone: 0
-  winDone: 0
-  wooshDone: 0
 --- !u!82 &1853908917
 AudioSource:
   m_ObjectHideFlags: 0
