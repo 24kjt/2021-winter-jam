@@ -58,8 +58,8 @@ public class playerController : MonoBehaviour
                 Debug.Log("Moving done!");
                 tilesToMove++;
                 player.transform.position = endPos;
-                levelScripts.updatePlayerLocation(endPos);
                 performConsequences();
+                levelScripts.updatePlayerLocation(endPos);
             }
         }
     }
@@ -69,7 +69,7 @@ public class playerController : MonoBehaviour
         int numIterations = 0;
         bool attemptedEscape = false;
         bool isHitWall = false;
-        Debug.Log("START POS: " + startPos);
+
         Vector2Int startIndex = levelScripts.calculateLevelIndexes(startPos);
         Vector2Int endIndex = levelScripts.calculateLevelIndexes(goalPos);
 
@@ -78,7 +78,7 @@ public class playerController : MonoBehaviour
         ans.playerEffect = Effect.None;
 
         //Check if attempting to exit stage
-        Debug.Log("End Index: " + endIndex);
+        // Debug.Log("End Index: " + endIndex);
         if (endIndex.x > grid.gridWidth - 1 || endIndex.x < 0 || endIndex.y > grid.gridHeight - 1 || endIndex.y < 0) {
             attemptedEscape = true;
             //Adjust x
@@ -137,8 +137,10 @@ public class playerController : MonoBehaviour
                     case "Pit":
                         if (i  == numIterations)
                             ans.playerEffect = Effect.Pit;
+                        Debug.Log("PIT!");
                         break;
                     case "Wall":
+                        Debug.Log("WALL!");
                         ans.playerEffect = Effect.Wall;
                         switch (movementDirection){
                             case Direction.Left: 
@@ -166,9 +168,9 @@ public class playerController : MonoBehaviour
                 }
             }
         }
-        Debug.Log("End Index3: " + endIndex);
+        // Debug.Log("End Index3: " + endIndex);
 
-        if (attemptedEscape && ans.playerEffect == Effect.None){
+        if (attemptedEscape){
             ans.endPos.x = endIndex.x * grid.cellSizeX + grid.cellSizeX/2;
             ans.endPos.y = endIndex.y * grid.cellSizeY + grid.cellSizeY/2;
             ans.playerEffect = Effect.Wall;
@@ -189,6 +191,7 @@ public class playerController : MonoBehaviour
                 tilesToMove = 1;
                 Vector2Int endIndex = levelScripts.calculateLevelIndexes(res.endPos);
                 GameObject currentTile = levelScripts.getTile(endIndex);
+                Debug.Log(currentTile);
                 switch (currentTile?.tag){
                     case "Goal":
                         res.playerEffect = Effect.Win;
@@ -200,6 +203,7 @@ public class playerController : MonoBehaviour
                         res.playerEffect = Effect.None;
                         break;
                 }
+                Debug.Log("NEW RES: " + res.playerEffect);
                 performConsequences();
                 break;
             default:
