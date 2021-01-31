@@ -10,15 +10,43 @@ public class soundEffectController : MonoBehaviour
     public AudioClip moveWoosh;
     public AudioClip win;
 
-    void playBonk(){
+    bool bonkDone = false;
+    bool winDone = false;
+    bool wooshDone = false;
+
+    // public void playBonk() {
+    //     StartCoroutine(_playBonk());
+    // }
+
+    // public void playWoosh() {
+    //     StartCoroutine(_playWoosh());
+    // }
+
+    // public void playWin() {
+    //     StartCoroutine(_playWin());
+    // }
+
+    public IEnumerator playBonk(){
         audiosource.clip = bonk;
+        audiosource.Play();
+        
+        while (audiosource.isPlaying)
+            yield return null;
     }
 
-    void playWoosh(){
+    public void playWoosh(){
         audiosource.clip = moveWoosh;
+        audiosource.Play();
+
+        // while (audiosource.isPlaying)
+        //     yield return null;
     }
 
-    void playWin(){
+    public IEnumerator playWin(){
         audiosource.clip = win;
+        audiosource.Play();
+        
+        while (audiosource.isPlaying)
+            yield return null;
     }
 }
