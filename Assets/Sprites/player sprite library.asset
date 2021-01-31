@@ -26,3 +26,14 @@ MonoBehaviour:
     - m_Name: dash
       m_Hash: -1687233280
       m_Sprite: {fileID: 21300000, guid: cf4dac78d26abac4c968279816e98827, type: 3}
+  - m_Name: hair
+    m_Hash: -1661509351
+    m_CategoryList:
+    - m_Name: normal
+      m_Hash: 562391268
+      m_Sprite: {fileID: 5258190293019351982, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
+        type: 3}
+    - m_Name: helmet
+      m_Hash: 2058022566
+      m_Sprite: {fileID: 2839510612882675246, guid: 8deb35bfbb40d4eb6b43f028f64aa5d4,
+        type: 3}
