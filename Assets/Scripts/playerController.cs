@@ -177,7 +177,9 @@ public class playerController : MonoBehaviour
         }
         // Debug.Log("End Index3: " + endIndex);
 
-        if (attemptedEscape){
+        Debug.Log("ANS: " + ans.endPos + " " + ans.playerEffect);
+        //Fuck wall
+        if (attemptedEscape && (ans.playerEffect != Effect.Wall)){
             ans.endPos.x = endIndex.x * grid.cellSizeX + grid.cellSizeX/2;
             ans.endPos.y = endIndex.y * grid.cellSizeY + grid.cellSizeY/2;
             ans.playerEffect = Effect.Wall;
