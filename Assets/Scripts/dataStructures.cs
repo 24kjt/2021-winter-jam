@@ -8,7 +8,7 @@ public struct MovementData {
 }
 
 public enum Effect {
-    None, Pit, Wall, Win
+    None, Pit, Wall, Win, Helmet
 }
 
 public enum Direction {

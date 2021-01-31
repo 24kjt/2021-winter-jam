@@ -5,7 +5,6 @@ using UnityEngine;
 public class playerController : MonoBehaviour
 {
     public GameObject player;
-    public GameObject levelController;
     public Animator animator;
 
     levelController levelScripts;
@@ -25,7 +24,7 @@ public class playerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelScripts = levelController.gameObject.GetComponent<levelController>();
+        levelScripts = GameObject.Find("levelManager").gameObject.GetComponent<levelController>();
     }
 
     // Update is called once per frame
@@ -66,7 +65,7 @@ public class playerController : MonoBehaviour
                 tilesToMove++;
                 player.transform.position = endPos;
                 performConsequences();
-                levelScripts.updatePlayerLocation(endPos);
+                // levelScripts.updatePlayerLocation(endPos); //buggy 
             }
         }
     }
@@ -142,9 +141,13 @@ public class playerController : MonoBehaviour
                             ans.playerEffect = Effect.Win;
                         break;
                     case "Pit":
-                        if (i  == numIterations)
+                        if (i == numIterations)
                             ans.playerEffect = Effect.Pit;
                         Debug.Log("PIT!");
+                        break;
+                    case "Helmet":
+                        if (i == numIterations)
+                            ans.playerEffect = Effect.Helmet;
                         break;
                     case "Wall":
                         Debug.Log("WALL!");
@@ -196,8 +199,20 @@ public class playerController : MonoBehaviour
             case Effect.Win:
                 levelScripts.nextLevel();
                 break;
+            case Effect.Helmet:
+                if (!hasHelmet) {
+                    hasHelmet = true;
+                    Destroy(levelScripts.getTile(levelScripts.calculateLevelIndexes(endPos)));
+                    levelScripts.removeTile(levelScripts.calculateLevelIndexes(endPos));
+                }
+                break;
             case Effect.Wall:
                 tilesToMove = 1;
+                if (!hasHelmet) {
+                    levelScripts.restartLevel();
+                } else {
+                    hasHelmet = false;
+                }
                 Vector2Int endIndex = levelScripts.calculateLevelIndexes(res.endPos);
                 GameObject currentTile = levelScripts.getTile(endIndex);
                 Debug.Log(currentTile);
@@ -208,11 +223,13 @@ public class playerController : MonoBehaviour
                     case "Pit":
                         res.playerEffect = Effect.Pit;
                         break;
+                    case "Helmet":
+                        res.playerEffect = Effect.Helmet;
+                        break;
                     default:
                         res.playerEffect = Effect.None;
                         break;
                 }
-                Debug.Log("NEW RES: " + res.playerEffect);
                 performConsequences();
                 break;
             default:
