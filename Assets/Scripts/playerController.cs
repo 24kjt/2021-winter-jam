@@ -242,7 +242,7 @@ public class playerController : MonoBehaviour
                         res.playerEffect = Effect.None;
                         break;
                 }
-                performConsequences();
+                yield return StartCoroutine(performConsequences());
                 break;
             default:
                 canMove = true;
