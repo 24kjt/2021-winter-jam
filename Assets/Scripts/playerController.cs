@@ -6,6 +6,7 @@ public class playerController : MonoBehaviour
 {
     public GameObject player;
     public Animator animator;
+    public Transform playerSprite;
 
     levelController levelScripts;
 
@@ -99,9 +100,11 @@ public class playerController : MonoBehaviour
         //Determine direction of movement
         if (startIndex.x > endIndex.x) {
             movementDirection = Direction.Left;
+            playerSprite.transform.localScale = new Vector3(-1,1,1);
             numIterations = startIndex.x - endIndex.x;
         } else if ( startIndex.x < endIndex.x) {
             movementDirection = Direction.Right;
+            playerSprite.transform.localScale = new Vector3(1,1,1);
             numIterations = endIndex.x - startIndex.x;
         } else if (startIndex.y < endIndex.y){
             movementDirection = Direction.Up;

@@ -407,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 482907973}
   animator: {fileID: 482907974}
+  playerSprite: {fileID: 1710194220}
   tilesToMove: 1
   moveSpeed: 5
   hasHelmet: 0
@@ -1454,6 +1455,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4823853741474326681, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823853741474326681, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1972,10 +1978,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5512024005358881426, guid: a73a0e8ba4cca4f859914a055b78251a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cfc20a63a17a34fa5940e621917484fd,
+        type: 3}
     - target: {fileID: 5512024005358881427, guid: a73a0e8ba4cca4f859914a055b78251a,
         type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512024005358881427, guid: a73a0e8ba4cca4f859914a055b78251a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512024005358881427, guid: a73a0e8ba4cca4f859914a055b78251a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5512024005358881427, guid: a73a0e8ba4cca4f859914a055b78251a,
         type: 3}
