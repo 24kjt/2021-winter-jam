@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity​Engine.Experimental.U2D.Animation;
 
 public class playerController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class playerController : MonoBehaviour
     public Animator animator;
     public Transform playerSprite;
     public soundEffectController soundEffect;
+    public SpriteResolver spriteResolver;
 
     levelController levelScripts;
 
@@ -199,6 +201,19 @@ public class playerController : MonoBehaviour
         return ans;
     }
 
+    void toggleHelmet(){
+        if (!hasHelmet) {
+            hasHelmet = true;
+            Destroy(levelScripts.getTile(levelScripts.calculateLevelIndexes(endPos)));
+            levelScripts.removeTile(levelScripts.calculateLevelIndexes(endPos));
+            spriteResolver.SetCategoryAndLabel("hair","helmet");
+        } else if (hasHelmet) {
+            hasHelmet = false;
+            spriteResolver.SetCategoryAndLabel("hair","normal");
+        }
+        
+    }
+
     IEnumerator performConsequences(){
         canMove = false;
         switch (res.playerEffect){
@@ -211,9 +226,7 @@ public class playerController : MonoBehaviour
                 break;
             case Effect.Helmet:
                 if (!hasHelmet) {
-                    hasHelmet = true;
-                    Destroy(levelScripts.getTile(levelScripts.calculateLevelIndexes(endPos)));
-                    levelScripts.removeTile(levelScripts.calculateLevelIndexes(endPos));
+                    toggleHelmet();
                 }
                 canMove = true;
                 break;
@@ -223,7 +236,7 @@ public class playerController : MonoBehaviour
                 if (!hasHelmet) {
                     levelScripts.restartLevel();
                 } else {
-                    hasHelmet = false;
+                    toggleHelmet();
                 }
                 Vector2Int endIndex = levelScripts.calculateLevelIndexes(res.endPos);
                 GameObject currentTile = levelScripts.getTile(endIndex);
