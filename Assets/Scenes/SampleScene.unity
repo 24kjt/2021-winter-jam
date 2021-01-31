@@ -398,7 +398,6 @@ MonoBehaviour:
   levelController: {fileID: 1191315061}
   tilesToMove: 1
   moveSpeed: 5
-  hasHelment: 0
 --- !u!61 &482907978
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1106,7 +1105,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1652158406897065604, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
+      objectReference: {fileID: 21300000, guid: cf4dac78d26abac4c968279816e98827,
         type: 3}
     - target: {fileID: 6362052563862092585, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
         type: 3}
