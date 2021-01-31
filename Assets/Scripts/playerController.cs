@@ -8,10 +8,10 @@ public class playerController : MonoBehaviour
     public GameObject player;
     public Animator animator;
     public Transform playerSprite;
-    public soundEffectController soundEffect;
     public SpriteResolver spriteResolver;
 
     levelController levelScripts;
+    soundEffectController soundEffect;
 
     public int tilesToMove = 1;
     public float moveSpeed = 5f;
@@ -30,6 +30,7 @@ public class playerController : MonoBehaviour
     void Start()
     {
         levelScripts = GameObject.Find("levelManager").gameObject.GetComponent<levelController>();
+        soundEffect = GameObject.Find("soundEffectManager").gameObject.GetComponent<soundEffectController>();
     }
 
     // Update is called once per frame

@@ -104,6 +104,7 @@ MonoBehaviour:
   player: {fileID: 8215991368394316014}
   animator: {fileID: 8215991368394316013}
   playerSprite: {fileID: 3527679658310129945}
+  spriteResolver: {fileID: 9151577765238989763}
   tilesToMove: 1
   moveSpeed: 5
   hasHelmet: 0
@@ -335,7 +336,7 @@ PrefabInstance:
     - target: {fileID: 4823853741474326681, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4823853741474326681, guid: 9a50c3a1c35824e4aad2751d28d6c7d8,
         type: 3}
