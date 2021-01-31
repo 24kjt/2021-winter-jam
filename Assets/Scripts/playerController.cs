@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity​Engine.Experimental.U2D.Animation;
 
 public class playerController : MonoBehaviour
 {
     public GameObject player;
     public Animator animator;
     public Transform playerSprite;
+    public soundEffectController soundEffect;
+    public SpriteResolver spriteResolver;
 
     levelController levelScripts;
 
@@ -15,6 +18,7 @@ public class playerController : MonoBehaviour
     public bool hasHelmet = false;
 
     bool isMoving = false;
+    bool canMove = true;
     Vector2 input;
 
     Vector3 startPos; //Starting Position
@@ -34,39 +38,42 @@ public class playerController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R)){
             levelScripts.restartLevel();
         }
-        if (!isMoving){
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (canMove){
+            if (!isMoving){
+                input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-            //Disable diagonal movement
-            if (input.x != 0)
-                input.y = 0;
-            
-            //check for valid input
-            if (input != Vector2.zero) {
-                startPos = player.transform.position;
-                endPos = new Vector3(startPos.x + input.x * grid.cellSizeX * tilesToMove, 
-                                     startPos.y + input.y * grid.cellSizeY * tilesToMove, 
-                                     startPos.z);
-                isMoving = true;
-                animator.SetBool("isMoving",true);
-                res = calculateMovement(startPos, endPos);
-                endPos = res.endPos;
-                Debug.Log("EFFECT: " + res.playerEffect);
-                progress = 0f;
-            }
-        } else {
-            if (progress < 1f) {
-                progress += Time.deltaTime * moveSpeed;
-
-                player.transform.position = Vector3.Lerp(startPos, endPos, progress);
+                //Disable diagonal movement
+                if (input.x != 0)
+                    input.y = 0;
+                
+                //check for valid input
+                if (input != Vector2.zero) {
+                    startPos = player.transform.position;
+                    endPos = new Vector3(startPos.x + input.x * grid.cellSizeX * tilesToMove, 
+                                        startPos.y + input.y * grid.cellSizeY * tilesToMove, 
+                                        startPos.z);
+                    isMoving = true;
+                    animator.SetBool("isMoving",true);
+                    res = calculateMovement(startPos, endPos);
+                    endPos = res.endPos;
+                    Debug.Log("EFFECT: " + res.playerEffect);
+                    progress = 0f;
+                    soundEffect.playWoosh();
+                }
             } else {
-                isMoving = false;
-                animator.SetBool("isMoving",false);
-                Debug.Log("Moving done!");
-                tilesToMove++;
-                player.transform.position = endPos;
-                performConsequences();
-                // levelScripts.updatePlayerLocation(endPos); //buggy 
+                if (progress < 1f) {
+                    progress += Time.deltaTime * moveSpeed;
+
+                    player.transform.position = Vector3.Lerp(startPos, endPos, progress);
+                } else {
+                    isMoving = false;
+                    animator.SetBool("isMoving",false);
+                    Debug.Log("Moving done!");
+                    tilesToMove++;
+                    player.transform.position = endPos;
+                    StartCoroutine(performConsequences());
+                    // levelScripts.updatePlayerLocation(endPos); //buggy 
+                }
             }
         }
     }
@@ -194,27 +201,42 @@ public class playerController : MonoBehaviour
         return ans;
     }
 
-    void performConsequences(){
+    void toggleHelmet(){
+        if (!hasHelmet) {
+            hasHelmet = true;
+            Destroy(levelScripts.getTile(levelScripts.calculateLevelIndexes(endPos)));
+            levelScripts.removeTile(levelScripts.calculateLevelIndexes(endPos));
+            spriteResolver.SetCategoryAndLabel("hair","helmet");
+        } else if (hasHelmet) {
+            hasHelmet = false;
+            spriteResolver.SetCategoryAndLabel("hair","normal");
+        }
+        
+    }
+
+    IEnumerator performConsequences(){
+        canMove = false;
         switch (res.playerEffect){
             case Effect.Pit:
                 levelScripts.restartLevel();
                 break;
             case Effect.Win:
+                yield return StartCoroutine(soundEffect.playWin());
                 levelScripts.nextLevel();
                 break;
             case Effect.Helmet:
                 if (!hasHelmet) {
-                    hasHelmet = true;
-                    Destroy(levelScripts.getTile(levelScripts.calculateLevelIndexes(endPos)));
-                    levelScripts.removeTile(levelScripts.calculateLevelIndexes(endPos));
+                    toggleHelmet();
                 }
+                canMove = true;
                 break;
             case Effect.Wall:
+                yield return StartCoroutine(soundEffect.playBonk());
                 tilesToMove = 1;
                 if (!hasHelmet) {
                     levelScripts.restartLevel();
                 } else {
-                    hasHelmet = false;
+                    toggleHelmet();
                 }
                 Vector2Int endIndex = levelScripts.calculateLevelIndexes(res.endPos);
                 GameObject currentTile = levelScripts.getTile(endIndex);
@@ -233,9 +255,10 @@ public class playerController : MonoBehaviour
                         res.playerEffect = Effect.None;
                         break;
                 }
-                performConsequences();
+                yield return StartCoroutine(performConsequences());
                 break;
             default:
+                canMove = true;
                 break;
         }
     }
