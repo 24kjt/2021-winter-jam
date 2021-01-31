@@ -6,7 +6,9 @@ public class playerController : MonoBehaviour
 {
     public GameObject player;
     public GameObject levelController;
-    private levelController levelScripts;
+    public Animator animator;
+
+    levelController levelScripts;
 
     public int tilesToMove = 1;
     public float moveSpeed = 5f;
@@ -46,6 +48,7 @@ public class playerController : MonoBehaviour
                                      startPos.y + input.y * grid.cellSizeY * tilesToMove, 
                                      startPos.z);
                 isMoving = true;
+                animator.SetBool("isMoving",true);
                 res = calculateMovement(startPos, endPos);
                 endPos = res.endPos;
                 Debug.Log("EFFECT: " + res.playerEffect);
@@ -58,6 +61,7 @@ public class playerController : MonoBehaviour
                 player.transform.position = Vector3.Lerp(startPos, endPos, progress);
             } else {
                 isMoving = false;
+                animator.SetBool("isMoving",false);
                 Debug.Log("Moving done!");
                 tilesToMove++;
                 player.transform.position = endPos;
