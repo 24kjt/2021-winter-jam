@@ -10,7 +10,7 @@ public class playerController : MonoBehaviour
 
     public int tilesToMove = 1;
     public float moveSpeed = 5f;
-    public bool hasHelment = false;
+    public bool hasHelmet = false;
 
     bool isMoving = false;
     Vector2 input;
@@ -29,6 +29,9 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.R)){
+            levelScripts.restartLevel();
+        }
         if (!isMoving){
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
